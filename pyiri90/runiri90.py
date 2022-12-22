@@ -18,12 +18,18 @@ def runiri(dt,z,glat,glon,f107,f107a,ap,mass=48):
     JF = array((1,1,1,1,0,1,1,1,1,1,1,0),bool) #Solomon 1993 version of IRI
     #JF = (1,1,1) + (0,0,0) +(1,)*14 + (0,1,0,1,1,1,1,0,0,0,1,1,0,1,0,1,1,1) #for 2013 version of IRI
 #%% call IRI
-    chdir(pyiri90.__path__[0])
-    logging.debug(getcwd())
-    outf,oarr = iri90.iri90(JF,jmag,glat,glon % 360., -f107,
-                       dt.strftime('%m%d'),
-                       dt.hour+dt.minute//60+dt.second//3600,
-                       z,'data/')
+    cwd = getcwd()
+    try:
+        chdir(pyiri90.__path__[0])
+        logging.debug(getcwd())
+        outf,oarr = iri90.iri90(JF,jmag,glat,glon % 360., -f107,
+                        dt.strftime('%m%d'),
+                        dt.hour+dt.minute//60+dt.second//3600,
+                        z,'data/')
+    except Exception as e:
+        chdir(cwd)
+        raise e
+    chdir(cwd)
 #%% arrange output
     iono = DataFrame(index=z,
                      columns=['ne','Tn','Ti','Te','nO+','nH+','nHe+','nO2+','nNO+',
