@@ -26,10 +26,8 @@ def runiri(dt,z,glat,glon,f107,f107a,ap,mass=48):
                         dt.strftime('%m%d'),
                         dt.hour+dt.minute//60+dt.second//3600,
                         z,'data/')
-    except Exception as e:
+    finally:
         chdir(cwd)
-        raise e
-    chdir(cwd)
 #%% arrange output
     iono = DataFrame(index=z,
                      columns=['ne','Tn','Ti','Te','nO+','nH+','nHe+','nO2+','nNO+',

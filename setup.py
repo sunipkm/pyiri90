@@ -5,7 +5,7 @@ from glob import glob
 from os.path import join
 
 #%% fortran data files
-iridata = glob(join('data','*.asc'))
+iridata = glob(join('pyiri90', 'data','*.asc'))
 #%% install
 setup(name='pyiri90',
 	   description='Python wrapper for IRI-90 ionosphere model',
