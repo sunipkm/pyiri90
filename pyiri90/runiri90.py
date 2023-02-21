@@ -5,7 +5,7 @@ michael Hirsch
 MIT license
 """
 from __future__ import division, absolute_import, annotations
-from typing import Tuple
+from typing import Tuple, SupportsFloat as Numeric
 import logging
 from numpy import ndarray, array
 from pandas import DataFrame
@@ -17,17 +17,17 @@ import pyiri90
 import iri90  # fortran
 
 
-def runiri(dt: datetime, z: float | ndarray, glat: float, glon: float, f107: float, f107a: float = None, ap: float = None, *, jmag: bool = False, JF: ndarray=array((1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0), bool))->Tuple[DataFrame, ndarray]:
+def runiri(dt: datetime, z: Numeric | ndarray, glat: Numeric, glon: Numeric, f107: Numeric, f107a: Numeric = None, ap: Numeric = None, *, jmag: bool = False, JF: ndarray=array((1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0), bool))->Tuple[DataFrame, ndarray]:
     """Run the IRI model.
 
     Args:
         dt (datetime): Time of day. 
-        z (float | ndarray): Altitude(s) in km.
-        glat (float): Latitude point.
-        glon (float): Longitude point.
-        f107 (float): F10.7 index for the day.
-        f107a (float, optional): 81-day average F10.7 index, unused. Present to maintain parity with GLOW calls. Defaults to None.
-        ap (float, optional): Global ap index, unused. Present to maintain parity with GLOW calls. Defaults to None.
+        z (Numeric | ndarray): Altitude(s) in km.
+        glat (Numeric): Latitude point.
+        glon (Numeric): Longitude point.
+        f107 (Numeric): F10.7 index for the day.
+        f107a (Numeric, optional): 81-day average F10.7 index, unused. Present to maintain parity with GLOW calls. Defaults to None.
+        ap (Numeric, optional): Global ap index, unused. Present to maintain parity with GLOW calls. Defaults to None.
         jmag (bool, optional): Geographic (False) or magnetic (True) latitude, longitude. Defaults to False.
         JF (ndarray, optional): Flags for the model. Defaults to array((1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0), bool) for IRI version found in Solomon (1993). Use (1,1,1) + (0,0,0) +(1,)*14 + (0,1,0,1,1,1,1,0,0,0,1,1,0,1,0,1,1,1) for 2013 version of IRI.
 
